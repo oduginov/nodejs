@@ -5,14 +5,6 @@ const getAll = async () => {
   return users;
 };
 
-const getUser = async index => {
-  return users[index - 1];
-};
-
-const getLastUser = async () => {
-  return users[users.length - 1];
-};
-
 const getUserById = async id => {
   return users.find(user => user.id === id);
 };
@@ -54,8 +46,6 @@ const deleteUser = async id => {
 module.exports = {
   getAll,
   createUser,
-  getUser,
-  getLastUser,
   getUserById,
   updateUser,
   deleteUser
