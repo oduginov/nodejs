@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const taskService = require('../tasks/task.service');
 const users = [];
 
 const getAll = async () => {
@@ -21,11 +22,10 @@ const createUser = async user => {
 };
 
 const updateUser = async (id, data) => {
-  const user = await getUserById(id);
-  if (!user) {
+  const index = users.findIndex(user => user.id === id);
+  if (index < 0) {
     return null;
   }
-  const index = users.indexOf(user);
   users[index].name = data.name ? data.name : users[index].name;
   users[index].login = data.login ? data.login : users[index].login;
   users[index].password = data.password ? data.password : users[index].password;
@@ -33,13 +33,12 @@ const updateUser = async (id, data) => {
 };
 
 const deleteUser = async id => {
-  // TODO should unassign user's tasks upon deletion
-  const user = await getUserById(id);
-  if (!user) {
+  const index = users.findIndex(user => user.id === id);
+  if (index < 0) {
     return false;
   }
-  const index = users.indexOf(user);
   users.splice(index, 1);
+  await taskService.deleteUserFromTasks(id);
   return true;
 };
 

@@ -1,6 +1,15 @@
 const Board = require('./board.model');
+const uuid = require('uuid');
+const taskService = require('../tasks/task.service');
+
 const boards = [
-  { id: '0000-0000-0000-0000', title: 'default board', columns: [] }
+  {
+    id: 'board-0000-0000-0000-0000',
+    title: 'default board',
+    columns: [
+      { id: 'column-0000-0000-0000-0000', title: 'default column', order: 1 }
+    ]
+  }
 ];
 
 const getAll = async () => {
@@ -12,32 +21,30 @@ const getBoardById = async id => {
 };
 
 const createBoard = async board => {
-  const newBoard = new Board({
-    title: board.title,
-    columns: board.columns
-  });
+  const newBoard = new Board(board);
+  for (let i = 0; i < newBoard.columns.length; i++) {
+    newBoard.columns[i].id = uuid();
+  }
   boards.push(newBoard);
   return newBoard;
 };
 
 const updateBoard = async (id, data) => {
-  const board = await getBoardById(id);
-  if (!board) {
+  const index = boards.findIndex(board => board.id === id);
+  if (index < 0) {
     return null;
   }
-  const index = boards.indexOf(board);
   boards[index].title = data.title ? data.title : boards[index].title;
   boards[index].columns = data.columns ? data.columns : boards[index].columns;
   return boards[index];
 };
 
 const deleteBoard = async id => {
-  // TODO should delete tasks upon deletion
-  const user = await getBoardById(id);
-  if (!user) {
+  const index = boards.findIndex(board => board.id === id);
+  if (index < 0) {
     return false;
   }
-  const index = boards.indexOf(user);
+  await taskService.deleteTaskByBoardId(id);
   boards.splice(index, 1);
   return true;
 };
