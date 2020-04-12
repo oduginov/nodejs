@@ -28,12 +28,23 @@ app.use('/', (req, res, next) => {
 });
 
 process.on('uncaughtException', error => {
-  logger.error(`captured error: ${error.message}`);
+  logger.log('error', `captured error: ${error.message}`);
+  setTimeout(() => {
+    const { exit } = process;
+    exit(1);
+  }, 1000);
 });
 
 process.on('unhandledRejection', reason => {
-  logger.error(`Unhandled rejection detected: ${reason.message}`);
+  logger.log('error', `Unhandled rejection detected: ${reason.message}`);
+  setTimeout(() => {
+    const { exit } = process;
+    exit(1);
+  }, 1000);
 });
+
+// throw Error('Oops!');
+// Promise.reject(Error('Oops!'));
 
 app.use('/users', userRouter, errorHandler, logInfo);
 app.use('/boards', boardRouter, taskRouter, errorHandler, logInfo);
