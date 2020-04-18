@@ -10,4 +10,12 @@ const errorHandler = async (err, req, res, next) => {
   next();
 };
 
-module.exports = { errorHandler };
+const catchErrors = fn => async (req, res, next) => {
+  try {
+    return await fn(req, res, next);
+  } catch (e) {
+    return next(e);
+  }
+};
+
+module.exports = { errorHandler, catchErrors };

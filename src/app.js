@@ -46,7 +46,8 @@ process.on('unhandledRejection', reason => {
 // throw Error('Oops!');
 // Promise.reject(Error('Oops!'));
 
-app.use('/users', userRouter, errorHandler, logInfo);
-app.use('/boards', boardRouter, taskRouter, errorHandler, logInfo);
-
+app.use('/users', userRouter);
+app.use('/boards', [boardRouter, taskRouter]);
+app.use(errorHandler);
+app.use(logInfo);
 module.exports = app;

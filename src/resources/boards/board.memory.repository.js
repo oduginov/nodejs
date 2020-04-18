@@ -44,7 +44,7 @@ const deleteBoard = async id => {
   if (index < 0) {
     return false;
   }
-  await taskService.deleteTaskByBoardId(id);
+  await taskService.deleteTasksByBoardId(id);
   boards.splice(index, 1);
   return true;
 };

@@ -49,14 +49,6 @@ const updateTask = async (boardId, taskId, data) => {
   const task = new Task(data);
   task.id = taskId;
   tasks[index] = task;
-  // tasks[index].boardId = data.boardId;
-  // tasks[index].columnId = data.columnId ? data.columnId : tasks[index].columnId;
-  // tasks[index].userId = data.userId ? data.userId : tasks[index].userId;
-  // tasks[index].description = data.description
-  //   ? data.description
-  //   : tasks[index].description;
-  // tasks[index].order = data.order ? data.order : tasks[index].order;
-  // tasks[index].title = data.title ? data.title : tasks[index].title;
   return task;
 };
 
