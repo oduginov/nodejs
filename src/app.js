@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const loginRouter = require('./resources/login/login.router');
+const usersService = require('./resources/users/user.service');
 
 const { logInfo, logger } = require('./common/logging');
 const { errorHandler } = require('./common/error-handling');
@@ -46,8 +48,9 @@ process.on('unhandledRejection', reason => {
 // throw Error('Oops!');
 // Promise.reject(Error('Oops!'));
 
-app.use('/users', userRouter);
-app.use('/boards', [boardRouter, taskRouter]);
+app.use('/login', loginRouter);
+app.use('/users', [usersService.checkToken, userRouter]);
+app.use('/boards', [usersService.checkToken, boardRouter, taskRouter]);
 app.use(errorHandler);
 app.use(logInfo);
 module.exports = app;

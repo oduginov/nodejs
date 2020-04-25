@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const User = require('./user.model');
 const usersService = require('./user.service');
 const { catchErrors } = require('../../common/error-handling');
@@ -18,7 +19,7 @@ router.route('/:id').get(
     } else {
       // res.status(404).json();
       const error = new Error();
-      error.status(404);
+      error.status = 404;
       throw error;
     }
   })

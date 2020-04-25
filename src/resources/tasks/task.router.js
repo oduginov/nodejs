@@ -60,7 +60,7 @@ router.route('/:boardId/tasks/:taskId').delete(
     } else {
       // res.status(404).json();
       const error = new Error();
-      error.status(404);
+      error.status = 404;
       throw error;
     }
   })

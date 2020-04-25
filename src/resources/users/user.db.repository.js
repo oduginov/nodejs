@@ -20,10 +20,14 @@ const deleteUser = async id => {
   return (await User.deleteOne({ _id: id })).deletedCount;
 };
 
+const getPasswordByUser = async (login, password) =>
+  User.findOne({ login, password });
+
 module.exports = {
   getAll,
   createUser,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
+  getPasswordByUser
 };
